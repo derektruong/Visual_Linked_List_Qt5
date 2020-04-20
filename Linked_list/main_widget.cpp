@@ -556,7 +556,7 @@ void Widget::on_go_random_create_clicked()
 
 void Widget::on_go_new_create_clicked()
 {
-    for(int i=0;i<=sizeNode;i++){
+    for(int i=0;i<=17;i++){
         value.remove(i);
         node[i]->hide();
         //Vẽ arrow giữa các node(Chú ý: Không được thay đổi cách này nếu không bị lỗi mất số)
