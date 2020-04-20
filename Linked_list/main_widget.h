@@ -44,6 +44,10 @@ private slots:
 
     void on_go_desc_sort_clicked();
 
+    void on_go_random_create_clicked();
+
+    void on_go_new_create_clicked();
+
 private:
     Ui::Widget *ui;
     QVector <QLabel*> node;

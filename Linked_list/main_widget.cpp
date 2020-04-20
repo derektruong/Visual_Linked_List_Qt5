@@ -10,12 +10,16 @@
 #include"single_list.h"
 #include<iostream>
 #include<windows.h>
+#include<time.h>
+#include<stdlib.h>
 #include<algorithm>
 Widget::Widget(QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::Widget)
 {
     ui->setupUi(this);
+    ui->spinBox_random->setMaximum(17);
+    srand (time(NULL));
     //Khởi tạo node mang bản chất label
     node.resize(100);
     for(int i=0;i<100;++i){
@@ -498,4 +502,103 @@ void Widget::on_go_desc_sort_clicked()
         }
         ui->label->setText("Sorted!");
     }
+}
+//Xử lí tạo list mới random
+void Widget::on_go_random_create_clicked()
+{
+    for(int i=0;i<=sizeNode;i++){
+        value.remove(i);
+        node[i]->hide();
+        //Vẽ arrow giữa các node(Chú ý: Không được thay đổi cách này nếu không bị lỗi mất số)
+        if(i<sizeNode){
+            arr[i]->hide();
+        }
+    }
+    for(int i=0;i<100;++i){
+        delete node[i];
+        delete arr[i];
+    }
+    value.clear();
+    sizeNode=0;
+    node.resize(100);
+    for(int i=0;i<100;++i){
+        node[i]=new QLabel(this);
+    }
+    //Khởi tạo arrow mang bản chất label
+    arr.resize(100);
+    for(int i=0;i<100;++i){
+        arr[i]=new QLabel(this);
+    }
+    //Mảng value lưu các giá trị label tại thời điểm xác định
+    value.resize(100);
+
+    //Tạo list mới random
+    srand(time(NULL));
+    int num=ui->spinBox_random->value();
+    sizeNode=num;
+    for(int i=0;i<sizeNode;i++){
+        int ran=rand()%100;
+        value.insert(i,ran);
+    }
+    for(int i=0;i<=sizeNode;i++){
+        //hiện label node
+        node[i]=setNode(i,value[i]);
+        node[i]->show();
+        //Vẽ arrow giữa các node(Chú ý: Không được thay đổi cách này nếu không bị lỗi mất số)
+        //hiện label mũi tên
+        if(i<sizeNode){
+            arr[i]=arrow(i);
+            arr[i]->show();
+        }
+    }
+    ui->label->setText("Created!");
+}
+
+void Widget::on_go_new_create_clicked()
+{
+    for(int i=0;i<=sizeNode;i++){
+        value.remove(i);
+        node[i]->hide();
+        //Vẽ arrow giữa các node(Chú ý: Không được thay đổi cách này nếu không bị lỗi mất số)
+        if(i<sizeNode){
+            arr[i]->hide();
+        }
+    }
+    for(int i=0;i<100;++i){
+        delete node[i];
+        delete arr[i];
+    }
+    value.clear();
+    sizeNode=0;
+    node.resize(100);
+    for(int i=0;i<100;++i){
+        node[i]=new QLabel(this);
+    }
+    //Khởi tạo arrow mang bản chất label
+    arr.resize(100);
+    for(int i=0;i<100;++i){
+        arr[i]=new QLabel(this);
+    }
+    //Mảng value lưu các giá trị label tại thời điểm xác định
+    value.resize(100);
+    //Tạo list tự tạo
+    QString s=ui->lineEdit_create->text();
+    QStringList splitStr=s.split(",");
+    sizeNode=splitStr.size();
+    for(int i=0;i<splitStr.size();i++){
+        int num=splitStr[i].toInt();
+        value.insert(i,num);
+    }
+    for(int i=0;i<=sizeNode;i++){
+        //hiện label node
+        node[i]=setNode(i,value[i]);
+        node[i]->show();
+        //Vẽ arrow giữa các node(Chú ý: Không được thay đổi cách này nếu không bị lỗi mất số)
+        //hiện label mũi tên
+        if(i<sizeNode){
+            arr[i]=arrow(i);
+            arr[i]->show();
+        }
+    }
+    ui->label->setText("Created!");
 }

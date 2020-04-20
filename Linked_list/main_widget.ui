@@ -20,9 +20,9 @@
    <property name="geometry">
     <rect>
      <x>0</x>
-     <y>320</y>
+     <y>310</y>
      <width>241</width>
-     <height>451</height>
+     <height>461</height>
     </rect>
    </property>
    <property name="font">
@@ -40,13 +40,164 @@ color: rgb(255, 79, 91);
 
 </string>
    </property>
+   <widget class="QWidget" name="page_7">
+    <attribute name="label">
+     <string>Create New List</string>
+    </attribute>
+    <widget class="QToolBox" name="toolBox_3">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>221</width>
+       <height>181</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">color: rgb(85, 85, 255);
+font: 14pt &quot;MS Shell Dlg 2&quot;;</string>
+     </property>
+     <property name="currentIndex">
+      <number>1</number>
+     </property>
+     <widget class="QWidget" name="page_8">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>221</width>
+        <height>107</height>
+       </rect>
+      </property>
+      <attribute name="label">
+       <string>Random List</string>
+      </attribute>
+      <widget class="QWidget" name="layoutWidget_4">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>0</y>
+         <width>191</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <layout class="QHBoxLayout" name="horizontalLayout_11">
+        <item>
+         <widget class="QLabel" name="size_random_create">
+          <property name="text">
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;Size:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QSpinBox" name="spinBox_random">
+          <property name="maximumSize">
+           <size>
+            <width>91</width>
+            <height>27</height>
+           </size>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QPushButton" name="go_random_create">
+       <property name="geometry">
+        <rect>
+         <x>30</x>
+         <y>50</y>
+         <width>141</width>
+         <height>41</height>
+        </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">font: 14pt &quot;MS Shell Dlg 2&quot;;
+border-style: outset;
+border-width: 2px;
+background-color: rgb(255, 66, 116);
+border-radius:10px;
+color: rgb(255, 255, 255);
+border-color:black ;
+padding: 10px;
+</string>
+       </property>
+       <property name="text">
+        <string>GO</string>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QWidget" name="page_9">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>221</width>
+        <height>107</height>
+       </rect>
+      </property>
+      <attribute name="label">
+       <string>New List</string>
+      </attribute>
+      <widget class="QPushButton" name="go_new_create">
+       <property name="geometry">
+        <rect>
+         <x>30</x>
+         <y>50</y>
+         <width>141</width>
+         <height>41</height>
+        </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">font: 14pt &quot;MS Shell Dlg 2&quot;;
+border-style: outset;
+border-width: 2px;
+background-color: rgb(255, 66, 116);
+border-radius:10px;
+color: rgb(255, 255, 255);
+border-color:black ;
+padding: 10px;
+</string>
+       </property>
+       <property name="text">
+        <string>GO</string>
+       </property>
+      </widget>
+      <widget class="QWidget" name="">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>10</y>
+         <width>211</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <layout class="QHBoxLayout" name="horizontalLayout_12">
+        <item>
+         <widget class="QLabel" name="input_create_new">
+          <property name="text">
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;Input:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="lineEdit_create">
+          <property name="text">
+           <string>45,29,69,31,6,93,57</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+    </widget>
+   </widget>
    <widget class="QWidget" name="Chen">
     <property name="geometry">
      <rect>
       <x>0</x>
       <y>0</y>
       <width>241</width>
-      <height>229</height>
+      <height>202</height>
      </rect>
     </property>
     <attribute name="label">
@@ -141,8 +292,8 @@ padding: 10px;
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>201</width>
-        <height>90</height>
+        <width>100</width>
+        <height>30</height>
        </rect>
       </property>
       <attribute name="label">
@@ -284,7 +435,7 @@ padding: 10px;
       <x>0</x>
       <y>0</y>
       <width>241</width>
-      <height>229</height>
+      <height>202</height>
      </rect>
     </property>
     <attribute name="label">
@@ -379,7 +530,7 @@ color: rgb(85, 85, 255);</string>
       <x>0</x>
       <y>0</y>
       <width>241</width>
-      <height>229</height>
+      <height>202</height>
      </rect>
     </property>
     <attribute name="label">
@@ -480,7 +631,7 @@ padding: 10px;
       <x>0</x>
       <y>0</y>
       <width>241</width>
-      <height>229</height>
+      <height>202</height>
      </rect>
     </property>
     <attribute name="label">
@@ -813,7 +964,7 @@ padding: 10px;
       <x>0</x>
       <y>0</y>
       <width>241</width>
-      <height>229</height>
+      <height>202</height>
      </rect>
     </property>
     <attribute name="label">
@@ -984,7 +1135,7 @@ padding: 10px;
       <x>0</x>
       <y>0</y>
       <width>241</width>
-      <height>229</height>
+      <height>202</height>
      </rect>
     </property>
     <attribute name="label">
