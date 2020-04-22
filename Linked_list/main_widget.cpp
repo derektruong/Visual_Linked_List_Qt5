@@ -1,46 +1,43 @@
 #include "main_widget.h"
 #include "ui_main_widget.h"
-#include<QVector>
 #include<QLabel>
-#include<QLineF>
-#include<QPainter>
 #include<QPixmap>
 #include<QDir>
 #include<math.h>
-#include"single_list.h"
+#include"list.h"
 #include<iostream>
 #include<windows.h>
-#include<time.h>
-#include<stdlib.h>
 #include<algorithm>
 Widget::Widget(QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::Widget)
 {
     ui->setupUi(this);
-    ui->spinBox_random->setMaximum(17);
-    srand (time(NULL));
     //Khởi tạo node mang bản chất label
-    node.resize(100);
     for(int i=0;i<100;++i){
-        node[i]=new QLabel(this);
+        QLabel *newnode=new QLabel(this);
+        node.insert(i,newnode);
     }
     //Khởi tạo arrow mang bản chất label
-    arr.resize(100);
     for(int i=0;i<100;++i){
-        arr[i]=new QLabel(this);
+        QLabel *newarr=new QLabel(this);
+        arr.insert(i,newarr);
     }
     //Mảng value lưu các giá trị label tại thời điểm xác định
-    value.resize(100);
     //Xác định số lượng label hiện tại
     sizeNode=0;
+    ui->spinBox_random->setMaximum(17);
+    ui->spinBox_insert_first->setMinimum(-99);
+    ui->spinBox1_insert_mid->setMinimum(-99);
+    ui->spinBox_insert_tail->setMinimum(-99);
 }
 
 Widget::~Widget()
 {
     for(int i=0;i<100;++i){
-        delete node[i];
-        delete arr[i];
+        node.remove(i);
+        arr.remove(i);
+        value.remove(i);
     }
     delete ui;
 }
@@ -59,7 +56,7 @@ QLabel* Widget::setNode(int pos,int num){
     if(pos==sizeNode-1 && pos!=0){
         if(pos<9){
             nodenew->setToolTip("Value of node: "+s+"\nPosition: "+s1+"\nCurrent pointer: pTail");
-            nodenew->setText((" "+s+"   *pTail"));
+            nodenew->setText((s+"   *pTail"));
             nodenew->setGeometry(QRect(170+(pos-1)*150,80,100,55));
         }
         else if(pos>=9) {
@@ -73,7 +70,7 @@ QLabel* Widget::setNode(int pos,int num){
     //Trường hợp tạo *pHead
     if(pos==0){
         nodenew->setToolTip("Value of node: "+s+"\nPosition: "+s1+"\nCurrent pointer: pHead");
-        nodenew->setText((" "+s+"  *pHead"));
+        nodenew->setText((""+s+"  *pHead"));
         nodenew->setAlignment(Qt::AlignCenter);
         nodenew->setGeometry(QRect(20,80,100,55));
     }
@@ -83,21 +80,21 @@ QLabel* Widget::setNode(int pos,int num){
             nodenew->setText("NULL");
             nodenew->setAlignment(Qt::AlignCenter);
             nodenew->setStyleSheet("background-color: rgb(255, 199, 107);border-style: outset;border-radius:20px");
-            QRect r(node[sizeNode-1]->geometry());
+            QRect r(node.pos(sizeNode-1)->geometry());
             nodenew->setGeometry(r.x()+150,r.y(),r.width(),r.height());
         }
         else if(pos==9) {
             nodenew->setText("NULL");
             nodenew->setAlignment(Qt::AlignCenter);
             nodenew->setStyleSheet("background-color: rgb(255, 199, 107);border-style: outset;border-radius:20px");
-            QRect r(node[sizeNode-1]->geometry());
+            QRect r(node.pos(sizeNode-1)->geometry());
             nodenew->setGeometry(r.x(),r.y()+100,r.width(),r.height());
         }
         else if(pos>9) {
             nodenew->setText("NULL");
             nodenew->setAlignment(Qt::AlignCenter);
             nodenew->setStyleSheet("background-color: rgb(255, 199, 107);border-style: outset;border-radius:20px");
-            QRect r(node[sizeNode-1]->geometry());
+            QRect r(node.pos(sizeNode-1)->geometry());
             nodenew->setGeometry(r.x()-150,r.y(),r.width(),r.height());
         }
     }
@@ -105,7 +102,8 @@ QLabel* Widget::setNode(int pos,int num){
     if (pos>0 && pos<sizeNode-1) {
         if(pos<9){
             nodenew->setToolTip("Value of node: "+s+"\nPosition: "+s1+"\nCurrent pointer: pNext");
-            if(num<10) nodenew->setText((" "+s+"   *pNext"));
+            if(num<0) nodenew->setText((s+"  *pNext"));
+            else if(num>=0&&num<10) nodenew->setText((" "+s+"   *pNext"));
             else if(num>=10) nodenew->setText((" "+s+"  *pNext"));
             nodenew->setGeometry(QRect(170+(pos-1)*150,80,100,55));
         }
@@ -133,16 +131,19 @@ QLabel* Widget::arrow(int sn){
     if(sn==0){
         QRect r1(120,90,100,35);
         arrow->setGeometry(r1);
+        arrow->lower();
     }
     else if(sn>0&&sn<=7) {
         QRect r2(270+150*(sn-1),90,100,35);
         arrow->setGeometry(r2);
+        arrow->lower();
     }
     else if(sn==8){
         QPixmap pixmap2(dir+"\\arrow1.png");
         arrow->setPixmap(pixmap2.scaled(20,60,Qt::KeepAspectRatio));
         QRect r3(1278,140,100,35);
         arrow->setGeometry(r3);
+        arrow->lower();
     }
     else if(sn>8) {
         QPixmap pixmap3(dir+"\\arrow2.png");
@@ -160,38 +161,39 @@ void Widget::on_go_insert_first_clicked()
     int num;
     if(sizeNode==0){
         sizeNode++;
+
         num=ui->spinBox_insert_first->value();
         value.insert(0,num);
-        for(int i=0;i<=sizeNode;i++){
-            node[i]=setNode(i,value[i]);
-            node[i]->show();
+        for(int i=0;i<=sizeNode;i++){;
+            if(i==sizeNode) node.replace(i,setNode(i,0));
+            else node.replace(i,setNode(i,value.pos(i)));
+            node.pos(i)->show();
+
             //Vẽ arrow giữa các node(Chú ý: Không được thay đổi cách này nếu không bị lỗi mất số)
             if(i<sizeNode){
-                arr[i]=arrow(i);
-                arr[i]->show();
+                arr.replace(i,arrow(i));
+                arr.pos(i)->show();
             }
         }
         ui->label->setText("Inserted!");
-
     }
     else if(sizeNode>0&&sizeNode<17){
-        for(int j=0;j<25;j++){
-            for(int i=0;i<=sizeNode+20;i++){
-                node[i]->hide();
-                arr[i]->hide();
+            for(int i=0;i<=sizeNode;i++){
+                node.pos(i)->hide();
+                arr.pos(i)->hide();
             }
-        }
         num=ui->spinBox_insert_first->value();
         value.insert(0,num);
         sizeNode++;
         for(int i=0;i<=sizeNode;i++){
             //hiện label node
-            node[i]=setNode(i,value[i]);
-            node[i]->show();
+            if(i==sizeNode) node.replace(i,setNode(i,0));
+            else node.replace(i,setNode(i,value.pos(i)));
+                node.pos(i)->show();
             //Vẽ arrow giữa các node(Chú ý: Không được thay đổi cách này nếu không bị lỗi mất số)
             if(i<sizeNode){
-                arr[i]=arrow(i);
-                arr[i]->show();
+                arr.replace(i,arrow(i));
+                arr.pos(i)->show();
             }
         }
         ui->label->setText("Inserted!");
@@ -215,8 +217,8 @@ void Widget::on_go_insert_mid_clicked()
     else if(sizeNode>0&&sizeNode<17){
         for(int j=0;j<25;j++){
             for(int i=0;i<=sizeNode+20;i++){
-                node[i]->hide();
-                arr[i]->hide();
+                node.pos(i)->hide();
+                arr.pos(i)->hide();
             }
         }
 
@@ -224,13 +226,13 @@ void Widget::on_go_insert_mid_clicked()
         sizeNode++;
         for(int i=0;i<=sizeNode;i++){
             //hiện label node
-            node[i]=setNode(i,value[i]);
-            node[i]->show();
+            if(i==sizeNode) node.replace(i,setNode(i,0));
+            else node.replace(i,setNode(i,value.pos(i)));
+                node.pos(i)->show();
             //Vẽ arrow giữa các node(Chú ý: Không được thay đổi cách này nếu không bị lỗi mất số)
-            //hiện label mũi tên
             if(i<sizeNode){
-                arr[i]=arrow(i);
-                arr[i]->show();
+                arr.replace(i,arrow(i));
+                arr.pos(i)->show();
             }
         }
         ui->label->setText("Inserted!");
@@ -238,7 +240,6 @@ void Widget::on_go_insert_mid_clicked()
     else if(sizeNode>=17){
         ui->label->setText("Sorry! Max size of list is 17 nodes!");
     }
-
 }
 
 //Xử lí thêm vào cuối
@@ -250,13 +251,14 @@ void Widget::on_go_insert_tail_clicked()
         num=ui->spinBox_insert_tail->value();
         value.insert(0,num);
         for(int i=0;i<=sizeNode;i++){;
-            node[i]=setNode(i,value[i]);
-            node[i]->show();
+            if(i==sizeNode) node.replace(i,setNode(i,0));
+            else node.replace(i,setNode(i,value.pos(i)));
+            node.pos(i)->show();
+
             //Vẽ arrow giữa các node(Chú ý: Không được thay đổi cách này nếu không bị lỗi mất số)
-            //hiện label mũi tên
             if(i<sizeNode){
-                arr[i]=arrow(i);
-                arr[i]->show();
+                arr.replace(i,arrow(i));
+                arr.pos(i)->show();
             }
         }
         ui->label->setText("Inserted!");
@@ -264,8 +266,8 @@ void Widget::on_go_insert_tail_clicked()
     else if(sizeNode>0&&sizeNode<17){
         for(int j=0;j<25;j++){
             for(int i=0;i<=sizeNode+20;i++){
-                node[i]->hide();
-                arr[i]->hide();
+                node.pos(i)->hide();
+                arr.pos(i)->hide();
             }
         }
 
@@ -273,13 +275,14 @@ void Widget::on_go_insert_tail_clicked()
         sizeNode++;
         value.insert(sizeNode-1,num);
         for(int i=0;i<=sizeNode;i++){
-            node[i]=setNode(i,value[i]);
-            node[i]->show();
+            //hiện label node
+            if(i==sizeNode) node.replace(i,setNode(i,0));
+            else node.replace(i,setNode(i,value.pos(i)));
+                node.pos(i)->show();
             //Vẽ arrow giữa các node(Chú ý: Không được thay đổi cách này nếu không bị lỗi mất số)
-            //hiện label mũi tên
             if(i<sizeNode){
-                arr[i]=arrow(i);
-                arr[i]->show();
+                arr.replace(i,arrow(i));
+                arr.pos(i)->show();
             }
         }
         ui->label->setText("Inserted!");
@@ -294,19 +297,20 @@ void Widget::on_go_search_clicked()
 {
     bool flag=false;//Biến check có tìm thấy hay không
     for(int i=0;i<sizeNode;i++){
-        node[i]=setNode(i,value[i]);
-        node[i]->show();
+        if(i==sizeNode) node.replace(i,setNode(i,0));
+        else node.replace(i,setNode(i,value.pos(i)));
+        node.pos(i)->show();
     }
     int num=ui->spinBox_search->value();
     for(int i=0;i<sizeNode;i++){
-        if(value[i]==num){
+        if(value.pos(i)==num){
             flag=true;
-            node[i]->setStyleSheet("background-color: qconicalgradient(cx:0, cy:0, angle:135, stop:0 rgba(255, 255, 0, 69), stop:0.375 rgba(255, 255, 0, 69), stop:0.423533 rgba(251, 255, 0, 145), stop:0.45 rgba(247, 255, 0, 208), stop:0.477581 rgba(255, 244, 71, 130), stop:0.518717 rgba(255, 218, 71, 130), stop:0.55 rgba(255, 255, 0, 255), stop:0.57754 rgba(255, 203, 0, 130), stop:0.625 rgba(255, 255, 0, 69), stop:1 rgba(255, 255, 0, 69));border-style: outset;border-radius:20px");
-            node[i]->show();
+            node.pos(i)->setStyleSheet("background-color: qconicalgradient(cx:0, cy:0, angle:135, stop:0 rgba(255, 255, 0, 69), stop:0.375 rgba(255, 255, 0, 69), stop:0.423533 rgba(251, 255, 0, 145), stop:0.45 rgba(247, 255, 0, 208), stop:0.477581 rgba(255, 244, 71, 130), stop:0.518717 rgba(255, 218, 71, 130), stop:0.55 rgba(255, 255, 0, 255), stop:0.57754 rgba(255, 203, 0, 130), stop:0.625 rgba(255, 255, 0, 69), stop:1 rgba(255, 255, 0, 69));border-style: outset;border-radius:20px");
+            node.pos(i)->show();
             break;
         }
-        node[i]->setStyleSheet("background-color: rgb(79, 185, 255);border-style: outset;border-radius:20px");
-        node[i]->show();
+        node.pos(i)->setStyleSheet("background-color: rgb(79, 185, 255);border-style: outset;border-radius:20px");
+        node.pos(i)->show();
         Sleep(300);
     }
     if(flag==true) ui->label->setText("Found!");
@@ -318,8 +322,9 @@ void Widget::on_go_search_clicked()
 void Widget::on_go_bypos_replace_clicked()
 {
     for(int i=0;i<sizeNode;i++){
-        node[i]=setNode(i,value[i]);
-        node[i]->show();
+        if(i==sizeNode) node.replace(i,setNode(i,0));
+        else node.replace(i,setNode(i,value.pos(i)));
+        node.pos(i)->show();
     }
     int pos=ui->spinBox_replace_bypos_1->value();
     int num=ui->spinBox_replace_bypos_2->value();
@@ -329,10 +334,11 @@ void Widget::on_go_bypos_replace_clicked()
     else{
         for(int i=0;i<sizeNode;i++){
             if(i==pos){
-                value.replace(i,num);
-                node[i]=setNode(i,num);
-                node[i]->setStyleSheet("background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(255, 0, 0, 255), stop:0.166 rgba(255, 255, 0, 255), stop:0.333 rgba(0, 255, 0, 255), stop:0.5 rgba(0, 255, 255, 255), stop:0.666 rgba(0, 0, 255, 255), stop:0.833 rgba(255, 0, 255, 255), stop:1 rgba(255, 0, 0, 255));border-style: outset;border-radius:20px");
-                node[i]->show();
+                //value.replace(i,num);
+                value.replace(i,num);//
+                node.replace(i,setNode(i,num));
+                node.pos(i)->setStyleSheet("background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(255, 0, 0, 255), stop:0.166 rgba(255, 255, 0, 255), stop:0.333 rgba(0, 255, 0, 255), stop:0.5 rgba(0, 255, 255, 255), stop:0.666 rgba(0, 0, 255, 255), stop:0.833 rgba(255, 0, 255, 255), stop:1 rgba(255, 0, 0, 255));border-style: outset;border-radius:20px");
+                node.pos(i)->show();
             }
             ui->label->setText("Replaced!");
         }
@@ -346,16 +352,18 @@ void Widget::on_go_byvalue_replace_clicked()
     int old_value=ui->spinBox_replace_byvalue_1->value();
     int new_value=ui->spinBox_replace_byvalue_2->value();
     for(int i=0;i<sizeNode;i++){
-        node[i]=setNode(i,value[i]);
-        node[i]->show();
+        if(i==sizeNode) node.replace(i,setNode(i,0));
+        else node.replace(i,setNode(i,value.pos(i)));
+        node.pos(i)->show();
     }
     for(int i=0;i<sizeNode;i++){
-        if(value[i]==old_value){
+        if(value.pos(i)==old_value){
             flag=true;
-            value.replace(i,new_value);
-            node[i]=setNode(i,new_value);
-            node[i]->setStyleSheet("background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(255, 0, 0, 255), stop:0.166 rgba(255, 255, 0, 255), stop:0.333 rgba(0, 255, 0, 255), stop:0.5 rgba(0, 255, 255, 255), stop:0.666 rgba(0, 0, 255, 255), stop:0.833 rgba(255, 0, 255, 255), stop:1 rgba(255, 0, 0, 255));border-style: outset;border-radius:20px");
-            node[i]->show();
+            //value.replace(i,new_value);
+            value.replace(i,new_value);//
+            node.replace(i,setNode(i,value.pos(i)));
+            node.pos(i)->setStyleSheet("background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(255, 0, 0, 255), stop:0.166 rgba(255, 255, 0, 255), stop:0.333 rgba(0, 255, 0, 255), stop:0.5 rgba(0, 255, 255, 255), stop:0.666 rgba(0, 0, 255, 255), stop:0.833 rgba(255, 0, 255, 255), stop:1 rgba(255, 0, 0, 255));border-style: outset;border-radius:20px");
+            node.pos(i)->show();
         }
     }
     if(flag==true) ui->label->setText("Replaced!");
@@ -365,7 +373,12 @@ void Widget::on_go_byvalue_replace_clicked()
 //Xử lí xoá tại vị trí xác định
 void Widget::on_go_delete_clicked()
 {
-
+    for(int j=0;j<100;j++){
+        for(int i=0;i<=sizeNode+17;i++){
+            node.pos(i)->hide();
+            arr.pos(i)->hide();
+        }
+    }
     int pos=ui->spinBox_delete->value();
     if(pos>sizeNode || pos<0){
         ui->label->setText("Error! Overflow error in range select!");
@@ -374,23 +387,26 @@ void Widget::on_go_delete_clicked()
         ui->label->setText("List is empty!");
     }
     else if(sizeNode>0&&sizeNode<=17){
-        for(int j=0;j<25;j++){
-            for(int i=0;i<=sizeNode+20;i++){
-                node[i]->hide();
-                arr[i]->hide();
+        for(int j=0;j<100;j++){
+            for(int i=0;i<=sizeNode+17;i++){
+                node.pos(i)->hide();
+                arr.pos(i)->hide();
             }
         }
         value.remove(pos);
         node.remove(pos);
         arr.remove(pos);
         sizeNode--;
-        for(int i=0;i<=sizeNode;i++){
-            node[i]=setNode(i,value[i]);
-            node[i]->show();
-            //Vẽ arrow giữa các node(Chú ý: Không được thay đổi cách này nếu không bị lỗi mất số)
-            if(i<sizeNode){
-                arr[i]=arrow(i);
-                arr[i]->show();
+        if(sizeNode>0){
+            for(int i=0;i<=sizeNode;i++){
+                if(i==sizeNode) node.replace(i,setNode(i,0));
+                else node.replace(i,setNode(i,value.pos(i)));
+                node.pos(i)->show();
+                //Vẽ arrow giữa các node(Chú ý: Không được thay đổi cách này nếu không bị lỗi mất số)
+                if(i<sizeNode){
+                    arr.replace(i,arrow(i));
+                    arr.pos(i)->show();
+                }
             }
         }
         ui->label->setText("Removed!");
@@ -405,31 +421,36 @@ void Widget::on_go_delete_2_clicked()
         ui->label->setText("List is empty!");
     }
     else{
+        for(int j=0;j<100;j++){
+            for(int i=0;i<=sizeNode+17;i++){
+                node.pos(i)->hide();
+                arr.pos(i)->hide();
+            }
+        }
         for(int i=0;i<=sizeNode;i++){
             value.remove(i);
-            node[i]->hide();
-            //Vẽ arrow giữa các node(Chú ý: Không được thay đổi cách này nếu không bị lỗi mất số)
+            node.pos(i)->hide();
             if(i<sizeNode){
-                arr[i]->hide();
+                arr.pos(i)->hide();
             }
         }
         for(int i=0;i<100;++i){
-            delete node[i];
-            delete arr[i];
+            node.remove(i);
+            arr.remove(i);
         }
         value.clear();
         sizeNode=0;
-        node.resize(100);
         for(int i=0;i<100;++i){
-            node[i]=new QLabel(this);
+            QLabel *newnode=new QLabel(this);
+            node.insert(i,newnode);
         }
         //Khởi tạo arrow mang bản chất label
-        arr.resize(100);
         for(int i=0;i<100;++i){
-            arr[i]=new QLabel(this);
+            QLabel *newarr=new QLabel(this);
+            arr.insert(i,newarr);
         }
+
         //Mảng value lưu các giá trị label tại thời điểm xác định
-        value.resize(100);
         ui->label->setText("Deleted!");
     }
 }
@@ -450,24 +471,36 @@ void Widget::on_go_size_clicked()
 //Xử lí sắp xếp tăng dần
 void Widget::on_go_asc_sort_clicked()
 {
+
     if(sizeNode==0){
         ui->label->setText("List is empty!");
     }
     else{
-        std::sort(value.begin(),value.begin()+sizeNode);
-        for(int j=0;j<25;j++){
-            for(int i=0;i<=sizeNode+20;i++){
-                node[i]->hide();
-                arr[i]->hide();
+        //Start tạo mảng phụ sắp xếp tăng dần
+        int value_temp[sizeNode];
+        for(int i=0;i<sizeNode;++i){
+            value_temp[i]=value.pos(i);
+        }
+        for(int i=0;i<sizeNode-1;++i){
+            for(int j=i+1;j<sizeNode;++j){
+                if(value_temp[i]>value_temp[j]) std::swap(value_temp[i],value_temp[j]);
+            }
+        }
+        //end
+        for(int j=0;j<100;j++){
+            for(int i=0;i<=sizeNode+17;i++){
+                node.pos(i)->hide();
+                arr.pos(i)->hide();
             }
         }
         for(int i=0;i<=sizeNode;i++){
-            node[i]=setNode(i,value[i]);
-            node[i]->show();
+            if(i==sizeNode) node.replace(i,setNode(i,0));
+            else node.replace(i,setNode(i,value_temp[i]));
+            node.pos(i)->show();
             //Vẽ arrow giữa các node(Chú ý: Không được thay đổi cách này nếu không bị lỗi mất số)
             if(i<sizeNode){
-                arr[i]=arrow(i);
-                arr[i]->show();
+                arr.replace(i,arrow(i));
+                arr.pos(i)->show();
             }
         }
         ui->label->setText("Sorted!");
@@ -482,59 +515,83 @@ void Widget::on_go_desc_sort_clicked()
         ui->label->setText("List is empty!");
     }
     else{
-        std::sort(value.rbegin(),value.rend());
-        for(int j=0;j<25;j++){
-            for(int i=0;i<=sizeNode+20;i++){
-                node[i]->hide();
-                arr[i]->hide();
+        //Start tạo mảng phụ sắp xếp
+        int value_temp[sizeNode];
+        for(int i=0;i<sizeNode;++i){
+            value_temp[i]=value.pos(i);
+        }
+        for(int i=0;i<sizeNode-1;++i){
+            for(int j=i+1;j<sizeNode;++j){
+                if(value_temp[i]<value_temp[j]) std::swap(value_temp[i],value_temp[j]);
+            }
+        }
+        //end
+        for(int j=0;j<100;j++){
+            for(int i=0;i<=sizeNode+17;i++){
+                node.pos(i)->hide();
+                arr.pos(i)->hide();
             }
         }
         for(int i=0;i<=sizeNode;i++){
             //hiện label node
-            node[i]=setNode(i,value[i]);
-            node[i]->show();
+            if(i==sizeNode) node.replace(i,setNode(i,0));
+            else node.replace(i,setNode(i,value_temp[i]));
+            node.pos(i)->show();
             //Vẽ arrow giữa các node(Chú ý: Không được thay đổi cách này nếu không bị lỗi mất số)
             //hiện label mũi tên
             if(i<sizeNode){
-                arr[i]=arrow(i);
-                arr[i]->show();
+                arr.replace(i,arrow(i));
+                arr.pos(i)->show();
             }
         }
         ui->label->setText("Sorted!");
     }
 }
-//Xử lí tạo list mới random
+
+
+
 void Widget::on_go_random_create_clicked()
 {
+    int num=ui->spinBox_random->value();
+    if(num==0){
+        ui->label->setText("List is empty!");
+        return;
+    }
+    //Delete all
+    for(int j=0;j<100;j++){
+        for(int i=0;i<=sizeNode+17;i++){
+            node.pos(i)->hide();
+            arr.pos(i)->hide();
+        }
+    }
     for(int i=0;i<=sizeNode;i++){
         value.remove(i);
-        node[i]->hide();
+        node.pos(i)->hide();
         //Vẽ arrow giữa các node(Chú ý: Không được thay đổi cách này nếu không bị lỗi mất số)
         if(i<sizeNode){
-            arr[i]->hide();
+            arr.pos(i)->hide();
         }
     }
     for(int i=0;i<100;++i){
-        delete node[i];
-        delete arr[i];
+        node.remove(i);
+        arr.remove(i);
     }
     value.clear();
     sizeNode=0;
-    node.resize(100);
     for(int i=0;i<100;++i){
-        node[i]=new QLabel(this);
+        QLabel *newnode=new QLabel(this);
+        node.insert(i,newnode);
     }
     //Khởi tạo arrow mang bản chất label
-    arr.resize(100);
     for(int i=0;i<100;++i){
-        arr[i]=new QLabel(this);
+        QLabel *newarr=new QLabel(this);
+        arr.insert(i,newarr);
     }
-    //Mảng value lưu các giá trị label tại thời điểm xác định
-    value.resize(100);
+
 
     //Tạo list mới random
     srand(time(NULL));
-    int num=ui->spinBox_random->value();
+
     sizeNode=num;
     for(int i=0;i<sizeNode;i++){
         int ran=rand()%100;
@@ -542,13 +599,13 @@ void Widget::on_go_random_create_clicked()
     }
     for(int i=0;i<=sizeNode;i++){
         //hiện label node
-        node[i]=setNode(i,value[i]);
-        node[i]->show();
+        if(i==sizeNode) node.replace(i,setNode(i,0));
+        else node.replace(i,setNode(i,value.pos(i)));
+            node.pos(i)->show();
         //Vẽ arrow giữa các node(Chú ý: Không được thay đổi cách này nếu không bị lỗi mất số)
-        //hiện label mũi tên
         if(i<sizeNode){
-            arr[i]=arrow(i);
-            arr[i]->show();
+            arr.replace(i,arrow(i));
+            arr.pos(i)->show();
         }
     }
     ui->label->setText("Created!");
@@ -556,48 +613,60 @@ void Widget::on_go_random_create_clicked()
 
 void Widget::on_go_new_create_clicked()
 {
-    for(int i=0;i<=17;i++){
-        value.remove(i);
-        node[i]->hide();
-        //Vẽ arrow giữa các node(Chú ý: Không được thay đổi cách này nếu không bị lỗi mất số)
-        if(i<sizeNode){
-            arr[i]->hide();
-        }
-    }
-    for(int i=0;i<100;++i){
-        delete node[i];
-        delete arr[i];
-    }
-    value.clear();
-    sizeNode=0;
-    node.resize(100);
-    for(int i=0;i<100;++i){
-        node[i]=new QLabel(this);
-    }
-    //Khởi tạo arrow mang bản chất label
-    arr.resize(100);
-    for(int i=0;i<100;++i){
-        arr[i]=new QLabel(this);
-    }
-    //Mảng value lưu các giá trị label tại thời điểm xác định
-    value.resize(100);
     //Tạo list tự tạo
     QString s=ui->lineEdit_create->text();
     QStringList splitStr=s.split(",");
     sizeNode=splitStr.size();
+    if(sizeNode>17){
+        ui->label->setText("Sorry! Max size of list is 17 nodes!");
+        return;
+    }
+    //Delete all
+    for(int j=0;j<100;j++){
+        for(int i=0;i<=sizeNode+17;i++){
+            node.pos(i)->hide();
+            arr.pos(i)->hide();
+        }
+    }
+    for(int i=0;i<=sizeNode;i++){
+        value.remove(i);
+        node.pos(i)->hide();
+        //Vẽ arrow giữa các node(Chú ý: Không được thay đổi cách này nếu không bị lỗi mất số)
+        if(i<sizeNode){
+            arr.pos(i)->hide();
+        }
+    }
+    for(int i=0;i<100;++i){
+        node.remove(i);
+        arr.remove(i);
+    }
+    value.clear();
+    sizeNode=0;
+    for(int i=0;i<100;++i){
+        QLabel *newnode=new QLabel(this);
+        node.insert(i,newnode);
+    }
+    //Tạo list tự tạo
+    sizeNode=splitStr.size();
+    //Khởi tạo arrow mang bản chất label
+    for(int i=0;i<100;++i){
+        QLabel *newarr=new QLabel(this);
+        arr.insert(i,newarr);
+    }
+
     for(int i=0;i<splitStr.size();i++){
         int num=splitStr[i].toInt();
         value.insert(i,num);
     }
     for(int i=0;i<=sizeNode;i++){
         //hiện label node
-        node[i]=setNode(i,value[i]);
-        node[i]->show();
+        if(i==sizeNode) node.replace(i,setNode(i,0));
+        else node.replace(i,setNode(i,value.pos(i)));
+            node.pos(i)->show();
         //Vẽ arrow giữa các node(Chú ý: Không được thay đổi cách này nếu không bị lỗi mất số)
-        //hiện label mũi tên
         if(i<sizeNode){
-            arr[i]=arrow(i);
-            arr[i]->show();
+            arr.replace(i,arrow(i));
+            arr.pos(i)->show();
         }
     }
     ui->label->setText("Created!");

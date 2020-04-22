@@ -4,7 +4,7 @@
 #include<QWidget>
 #include <QVector>
 #include<QLabel>
-#include"single_list.h"
+#include"list.h"
 QT_BEGIN_NAMESPACE
 namespace Ui { class Widget;
                class xl_them_dialog;}
@@ -50,10 +50,9 @@ private slots:
 
 private:
     Ui::Widget *ui;
-    QVector <QLabel*> node;
-    QVector <QLabel*> arr;
-    QVector<int> value;
     int sizeNode=0;
-    //QLabel *nodeNull=new QLabel(this);
+    List <QLabel*> node;
+    List<QLabel*> arr;
+    List<int> value;
 };
 #endif // WIDGET_H

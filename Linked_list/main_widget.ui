@@ -20,14 +20,14 @@
    <property name="geometry">
     <rect>
      <x>0</x>
-     <y>310</y>
-     <width>241</width>
-     <height>461</height>
+     <y>330</y>
+     <width>251</width>
+     <height>441</height>
     </rect>
    </property>
    <property name="font">
     <font>
-     <pointsize>14</pointsize>
+     <pointsize>12</pointsize>
      <weight>75</weight>
      <bold>true</bold>
     </font>
@@ -41,6 +41,14 @@ color: rgb(255, 79, 91);
 </string>
    </property>
    <widget class="QWidget" name="page_7">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>251</width>
+      <height>210</height>
+     </rect>
+    </property>
     <attribute name="label">
      <string>Create New List</string>
     </attribute>
@@ -50,12 +58,12 @@ color: rgb(255, 79, 91);
        <x>0</x>
        <y>0</y>
        <width>221</width>
-       <height>181</height>
+       <height>171</height>
       </rect>
      </property>
      <property name="styleSheet">
       <string notr="true">color: rgb(85, 85, 255);
-font: 14pt &quot;MS Shell Dlg 2&quot;;</string>
+font: 12pt &quot;MS Shell Dlg 2&quot;;</string>
      </property>
      <property name="currentIndex">
       <number>1</number>
@@ -66,7 +74,7 @@ font: 14pt &quot;MS Shell Dlg 2&quot;;</string>
         <x>0</x>
         <y>0</y>
         <width>221</width>
-        <height>107</height>
+        <height>105</height>
        </rect>
       </property>
       <attribute name="label">
@@ -132,7 +140,7 @@ padding: 10px;
         <x>0</x>
         <y>0</y>
         <width>221</width>
-        <height>107</height>
+        <height>105</height>
        </rect>
       </property>
       <attribute name="label">
@@ -162,7 +170,7 @@ padding: 10px;
         <string>GO</string>
        </property>
       </widget>
-      <widget class="QWidget" name="">
+      <widget class="QWidget" name="layoutWidget_5">
        <property name="geometry">
         <rect>
          <x>0</x>
@@ -196,8 +204,8 @@ padding: 10px;
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>241</width>
-      <height>202</height>
+      <width>251</width>
+      <height>210</height>
      </rect>
     </property>
     <attribute name="label">
@@ -215,7 +223,7 @@ padding: 10px;
      <property name="font">
       <font>
        <family>MS Shell Dlg 2</family>
-       <pointsize>14</pointsize>
+       <pointsize>12</pointsize>
        <weight>50</weight>
        <italic>false</italic>
        <bold>false</bold>
@@ -223,7 +231,7 @@ padding: 10px;
      </property>
      <property name="styleSheet">
       <string notr="true">color: rgb(85, 85, 255);
-font: 14pt &quot;MS Shell Dlg 2&quot;;</string>
+font: 12pt &quot;MS Shell Dlg 2&quot;;</string>
      </property>
      <property name="currentIndex">
       <number>0</number>
@@ -234,7 +242,7 @@ font: 14pt &quot;MS Shell Dlg 2&quot;;</string>
         <x>0</x>
         <y>0</y>
         <width>201</width>
-        <height>90</height>
+        <height>102</height>
        </rect>
       </property>
       <attribute name="label">
@@ -373,8 +381,8 @@ padding: 10px;
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>201</width>
-        <height>90</height>
+        <width>100</width>
+        <height>30</height>
        </rect>
       </property>
       <attribute name="label">
@@ -434,8 +442,8 @@ padding: 10px;
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>241</width>
-      <height>202</height>
+      <width>251</width>
+      <height>210</height>
      </rect>
     </property>
     <attribute name="label">
@@ -489,14 +497,14 @@ padding: 10px;
         <property name="font">
          <font>
           <family>MS Shell Dlg 2</family>
-          <pointsize>14</pointsize>
+          <pointsize>12</pointsize>
           <weight>50</weight>
           <italic>false</italic>
           <bold>false</bold>
          </font>
         </property>
         <property name="styleSheet">
-         <string notr="true">font: 14pt &quot;MS Shell Dlg 2&quot;;
+         <string notr="true">font: 12pt &quot;MS Shell Dlg 2&quot;;
 color: rgb(85, 85, 255);</string>
         </property>
         <property name="text">
@@ -529,8 +537,8 @@ color: rgb(85, 85, 255);</string>
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>241</width>
-      <height>202</height>
+      <width>251</width>
+      <height>210</height>
      </rect>
     </property>
     <attribute name="label">
@@ -630,8 +638,8 @@ padding: 10px;
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>241</width>
-      <height>202</height>
+      <width>251</width>
+      <height>210</height>
      </rect>
     </property>
     <attribute name="label">
@@ -649,7 +657,7 @@ padding: 10px;
      <property name="font">
       <font>
        <family>MS Shell Dlg 2</family>
-       <pointsize>14</pointsize>
+       <pointsize>12</pointsize>
        <weight>50</weight>
        <italic>false</italic>
        <bold>false</bold>
@@ -657,7 +665,7 @@ padding: 10px;
      </property>
      <property name="styleSheet">
       <string notr="true">color: rgb(85, 85, 255);
-font: 14pt &quot;MS Shell Dlg 2&quot;;</string>
+font: 12pt &quot;MS Shell Dlg 2&quot;;</string>
      </property>
      <property name="currentIndex">
       <number>0</number>
@@ -668,7 +676,7 @@ font: 14pt &quot;MS Shell Dlg 2&quot;;</string>
         <x>0</x>
         <y>0</y>
         <width>181</width>
-        <height>127</height>
+        <height>135</height>
        </rect>
       </property>
       <attribute name="label">
@@ -689,7 +697,7 @@ font: 14pt &quot;MS Shell Dlg 2&quot;;</string>
           <property name="font">
            <font>
             <family>MS Shell Dlg 2</family>
-            <pointsize>14</pointsize>
+            <pointsize>12</pointsize>
             <weight>50</weight>
             <italic>false</italic>
             <bold>false</bold>
@@ -766,7 +774,7 @@ padding: 10px;
           <property name="font">
            <font>
             <family>MS Shell Dlg 2</family>
-            <pointsize>14</pointsize>
+            <pointsize>12</pointsize>
             <weight>50</weight>
             <italic>false</italic>
             <bold>false</bold>
@@ -823,7 +831,7 @@ padding: 10px;
           <property name="font">
            <font>
             <family>MS Shell Dlg 2</family>
-            <pointsize>14</pointsize>
+            <pointsize>12</pointsize>
             <weight>50</weight>
             <italic>false</italic>
             <bold>false</bold>
@@ -880,7 +888,7 @@ padding: 10px;
           <property name="font">
            <font>
             <family>MS Shell Dlg 2</family>
-            <pointsize>14</pointsize>
+            <pointsize>12</pointsize>
             <weight>50</weight>
             <italic>false</italic>
             <bold>false</bold>
@@ -963,8 +971,8 @@ padding: 10px;
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>241</width>
-      <height>202</height>
+      <width>251</width>
+      <height>210</height>
      </rect>
     </property>
     <attribute name="label">
@@ -981,7 +989,7 @@ padding: 10px;
      </property>
      <property name="styleSheet">
       <string notr="true">color: rgb(85, 85, 255);
-font: 14pt &quot;MS Shell Dlg 2&quot;;</string>
+font: 12pt &quot;MS Shell Dlg 2&quot;;</string>
      </property>
      <property name="currentIndex">
       <number>0</number>
@@ -992,7 +1000,7 @@ font: 14pt &quot;MS Shell Dlg 2&quot;;</string>
         <x>0</x>
         <y>0</y>
         <width>201</width>
-        <height>117</height>
+        <height>125</height>
        </rect>
       </property>
       <attribute name="label">
@@ -1134,8 +1142,8 @@ padding: 10px;
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>241</width>
-      <height>202</height>
+      <width>251</width>
+      <height>210</height>
      </rect>
     </property>
     <attribute name="label">
@@ -1145,7 +1153,7 @@ padding: 10px;
      <property name="geometry">
       <rect>
        <x>30</x>
-       <y>0</y>
+       <y>30</y>
        <width>171</width>
        <height>41</height>
       </rect>

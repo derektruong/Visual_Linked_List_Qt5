@@ -18,13 +18,12 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     main.cpp \
-    main_widget.cpp \
-    node.cpp
+    main_widget.cpp
 
 HEADERS += \
+    list.h \
     main_widget.h \
-    node.h \
-    single_list.h
+    node.h
 
 FORMS += \
     main_widget.ui
