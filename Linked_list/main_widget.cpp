@@ -1,25 +1,27 @@
 #include "main_widget.h"
 #include "ui_main_widget.h"
+#include"list.h"
 #include<QLabel>
 #include<QPixmap>
 #include<QDir>
 #include<math.h>
-#include"list.h"
 #include<iostream>
 #include<windows.h>
-#include<algorithm>
+//#include<algorithm>
+#define MAX 50
+
 Widget::Widget(QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::Widget)
 {
     ui->setupUi(this);
     //Khởi tạo node mang bản chất label
-    for(int i=0;i<100;++i){
+    for(int i=0;i<MAX;++i){
         QLabel *newnode=new QLabel(this);
         node.insert(i,newnode);
     }
     //Khởi tạo arrow mang bản chất label
-    for(int i=0;i<100;++i){
+    for(int i=0;i<MAX;++i){
         QLabel *newarr=new QLabel(this);
         arr.insert(i,newarr);
     }
@@ -41,7 +43,6 @@ Widget::~Widget()
     }
     delete ui;
 }
-
 
 //Hàm xử lý tạo node(quan trọng)
 QLabel* Widget::setNode(int pos,int num){
@@ -118,7 +119,6 @@ QLabel* Widget::setNode(int pos,int num){
     return nodenew;
 }
 
-
 //Hàm xử lý tạo mũi tên(là label chứa file ảnh hình mũi tên)(quan trọng)
 QLabel* Widget::arrow(int sn){
     // Draw the line itself
@@ -178,10 +178,10 @@ void Widget::on_go_insert_first_clicked()
         ui->label->setText("Inserted!");
     }
     else if(sizeNode>0&&sizeNode<17){
-            for(int i=0;i<=sizeNode;i++){
-                node.pos(i)->hide();
-                arr.pos(i)->hide();
-            }
+        for(int i=0;i<=sizeNode+17;i++){
+            node.pos(i)->hide();
+            arr.pos(i)->hide();
+        }
         num=ui->spinBox_insert_first->value();
         value.insert(0,num);
         sizeNode++;
@@ -215,13 +215,10 @@ void Widget::on_go_insert_mid_clicked()
         ui->label->setText("Error! Overflow error in range select!");
     }
     else if(sizeNode>0&&sizeNode<17){
-        for(int j=0;j<25;j++){
-            for(int i=0;i<=sizeNode+20;i++){
-                node.pos(i)->hide();
-                arr.pos(i)->hide();
-            }
+        for(int i=0;i<=sizeNode+17;i++){
+            node.pos(i)->hide();
+            arr.pos(i)->hide();
         }
-
         value.insert(pos,num);
         sizeNode++;
         for(int i=0;i<=sizeNode;i++){
@@ -264,13 +261,10 @@ void Widget::on_go_insert_tail_clicked()
         ui->label->setText("Inserted!");
     }
     else if(sizeNode>0&&sizeNode<17){
-        for(int j=0;j<25;j++){
-            for(int i=0;i<=sizeNode+20;i++){
-                node.pos(i)->hide();
-                arr.pos(i)->hide();
-            }
+        for(int i=0;i<=sizeNode+17;i++){
+            node.pos(i)->hide();
+            arr.pos(i)->hide();
         }
-
         num=ui->spinBox_insert_tail->value();
         sizeNode++;
         value.insert(sizeNode-1,num);
@@ -373,25 +367,17 @@ void Widget::on_go_byvalue_replace_clicked()
 //Xử lí xoá tại vị trí xác định
 void Widget::on_go_delete_clicked()
 {
-    for(int j=0;j<100;j++){
-        for(int i=0;i<=sizeNode+17;i++){
-            node.pos(i)->hide();
-            arr.pos(i)->hide();
-        }
-    }
     int pos=ui->spinBox_delete->value();
-    if(pos>sizeNode || pos<0){
+    if(pos>=sizeNode || pos<0){
         ui->label->setText("Error! Overflow error in range select!");
     }
     else if(sizeNode==0){
         ui->label->setText("List is empty!");
     }
     else if(sizeNode>0&&sizeNode<=17){
-        for(int j=0;j<100;j++){
-            for(int i=0;i<=sizeNode+17;i++){
-                node.pos(i)->hide();
-                arr.pos(i)->hide();
-            }
+        for(int i=0;i<=sizeNode+17;i++){
+            node.pos(i)->hide();
+            arr.pos(i)->hide();
         }
         value.remove(pos);
         node.remove(pos);
@@ -421,7 +407,7 @@ void Widget::on_go_delete_2_clicked()
         ui->label->setText("List is empty!");
     }
     else{
-        for(int j=0;j<100;j++){
+        for(int j=0;j<MAX;j++){
             for(int i=0;i<=sizeNode+17;i++){
                 node.pos(i)->hide();
                 arr.pos(i)->hide();
@@ -434,18 +420,18 @@ void Widget::on_go_delete_2_clicked()
                 arr.pos(i)->hide();
             }
         }
-        for(int i=0;i<100;++i){
+        for(int i=0;i<MAX;++i){
             node.remove(i);
             arr.remove(i);
         }
         value.clear();
         sizeNode=0;
-        for(int i=0;i<100;++i){
+        for(int i=0;i<MAX;++i){
             QLabel *newnode=new QLabel(this);
             node.insert(i,newnode);
         }
         //Khởi tạo arrow mang bản chất label
-        for(int i=0;i<100;++i){
+        for(int i=0;i<MAX;++i){
             QLabel *newarr=new QLabel(this);
             arr.insert(i,newarr);
         }
@@ -487,11 +473,9 @@ void Widget::on_go_asc_sort_clicked()
             }
         }
         //end
-        for(int j=0;j<100;j++){
-            for(int i=0;i<=sizeNode+17;i++){
-                node.pos(i)->hide();
-                arr.pos(i)->hide();
-            }
+        for(int i=0;i<=sizeNode+17;i++){
+            node.pos(i)->hide();
+            arr.pos(i)->hide();
         }
         for(int i=0;i<=sizeNode;i++){
             if(i==sizeNode) node.replace(i,setNode(i,0));
@@ -526,11 +510,9 @@ void Widget::on_go_desc_sort_clicked()
             }
         }
         //end
-        for(int j=0;j<100;j++){
-            for(int i=0;i<=sizeNode+17;i++){
-                node.pos(i)->hide();
-                arr.pos(i)->hide();
-            }
+        for(int i=0;i<=sizeNode+17;i++){
+            node.pos(i)->hide();
+            arr.pos(i)->hide();
         }
         for(int i=0;i<=sizeNode;i++){
             //hiện label node
@@ -549,7 +531,7 @@ void Widget::on_go_desc_sort_clicked()
 }
 
 
-
+//Xử lí tạo mới danh sách bằng random
 void Widget::on_go_random_create_clicked()
 {
     int num=ui->spinBox_random->value();
@@ -558,12 +540,11 @@ void Widget::on_go_random_create_clicked()
         return;
     }
     //Delete all
-    for(int j=0;j<100;j++){
-        for(int i=0;i<=sizeNode+17;i++){
-            node.pos(i)->hide();
-            arr.pos(i)->hide();
-        }
+    for(int i=0;i<=sizeNode+17;i++){
+        node.pos(i)->hide();
+        arr.pos(i)->hide();
     }
+
     for(int i=0;i<=sizeNode;i++){
         value.remove(i);
         node.pos(i)->hide();
@@ -572,18 +553,18 @@ void Widget::on_go_random_create_clicked()
             arr.pos(i)->hide();
         }
     }
-    for(int i=0;i<100;++i){
+    for(int i=0;i<MAX;++i){
         node.remove(i);
         arr.remove(i);
     }
     value.clear();
     sizeNode=0;
-    for(int i=0;i<100;++i){
+    for(int i=0;i<MAX;++i){
         QLabel *newnode=new QLabel(this);
         node.insert(i,newnode);
     }
     //Khởi tạo arrow mang bản chất label
-    for(int i=0;i<100;++i){
+    for(int i=0;i<MAX;++i){
         QLabel *newarr=new QLabel(this);
         arr.insert(i,newarr);
     }
@@ -610,7 +591,7 @@ void Widget::on_go_random_create_clicked()
     }
     ui->label->setText("Created!");
 }
-
+//Xử lí tạo mới danh sách bằng input
 void Widget::on_go_new_create_clicked()
 {
     //Tạo list tự tạo
@@ -622,11 +603,9 @@ void Widget::on_go_new_create_clicked()
         return;
     }
     //Delete all
-    for(int j=0;j<100;j++){
-        for(int i=0;i<=sizeNode+17;i++){
-            node.pos(i)->hide();
-            arr.pos(i)->hide();
-        }
+    for(int i=0;i<=sizeNode+17;i++){
+        node.pos(i)->hide();
+        arr.pos(i)->hide();
     }
     for(int i=0;i<=sizeNode;i++){
         value.remove(i);
@@ -636,20 +615,20 @@ void Widget::on_go_new_create_clicked()
             arr.pos(i)->hide();
         }
     }
-    for(int i=0;i<100;++i){
+    for(int i=0;i<MAX;++i){
         node.remove(i);
         arr.remove(i);
     }
     value.clear();
     sizeNode=0;
-    for(int i=0;i<100;++i){
+    for(int i=0;i<MAX;++i){
         QLabel *newnode=new QLabel(this);
         node.insert(i,newnode);
     }
     //Tạo list tự tạo
     sizeNode=splitStr.size();
     //Khởi tạo arrow mang bản chất label
-    for(int i=0;i<100;++i){
+    for(int i=0;i<MAX;++i){
         QLabel *newarr=new QLabel(this);
         arr.insert(i,newarr);
     }

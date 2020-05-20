@@ -1,3 +1,13 @@
+//Các Element là các phần tử(nút) của một List(danh sách liên kết đơn)
+/***Trong header này sẽ xây dựng 2 class:
+ * class Element để quản lý trường dữ liệu của một nút.
+ * class List để quản lý các Element liên kết với nhau.
+ * Dslk này là dslk đơn được quản lý bởi 2 con trỏ *pHead(nút đầu tiên) và *pTail(nút cuối cùng).
+ * DSLK này được thiết kế để có thể phù hợp với mọi kiểu dữ liệu mà các nút muốn lưu trữ.
+    -Điều này là nhờ sử dụng lập trình tổng quát(templates) trong ngôn ngữ C++.
+    -Có thể lưu trữ cả những đối tượng từ các Class khác.
+*/
+
 #ifndef LIST_H
 #define LIST_H
 #include <iostream>
@@ -6,27 +16,26 @@
 template<class T>
 class Element {
  public:
-  Element(const T& value) : data_(value), next_(NULL) {}
+  Element(const T& value) : data_(value), pNext(NULL) {}
   ~Element() {}
 
-  void        SetValue(const T& value) { data_ = value; }
-  const T&    GetValue() const { return data_; }
-  void        SetNext(Element<T>* next) { next_ = next; }
-  Element<T>* GetNext() const { return next_; }
-    friend class Widgets;
-  void        Print() const { std::cout << data_ << "\t"; }
+  void        SetValue(const T& value) { data_ = value; }//Thay đổi "data_" của phần tử bằng "value" mới
+  const T&    GetValue() const { return data_; }//Lấy dữ liệu từ một Element
+  void        SetNext(Element<T>* next) { pNext = next; }//Thay đổi "data_" của phần tử mà con trỏ pNext đang trỏ tới
+  Element<T>* GetNext() const { return pNext; }//Lấy dữ liệu từ một Element mà con trỏ pNext đang trỏ tới
+    friend class Widgets;//Tạo lớp bạn là Widgets
 
  private:
-  Element();  // Prevent calling the default ctor
+  Element();  // Ngăn chặn gọi constructor mặc định
 
   T           data_;
-  Element<T>* next_;
+  Element<T>* pNext;
 };
 
 template <class T>
 class List {
- public:
-  List(): head_(NULL), tail_(NULL), size(0) {}
+  public:
+  List(): pHead(NULL), pTail(NULL), size(0) {}//Phương thức khởi tạo
   ~List();
 
   void resize(int size);
@@ -35,28 +44,23 @@ class List {
   void PopFront(T* value);
   void PopBack (T* value);
 
-  const T& pos(int index);
-  void Print() const;
+  const T& pos(int index);//Trả về phần tử tại vị trí "index"
 
   void insert(const int& pos,const T& value);
   void replace(int index,const T& value);
   void remove(const int& position);
   void clear();
 
-
-  int  Find(const int& value) const;
-  const T& Get (const int& position, T* value);
-
-  friend class Widgets;
-private:
+  friend class Widgets;//Tạo lớp bạn là Widgets
+  private:
   int size=0;
-  Element<T>* head_;
-  Element<T>* tail_;
+  Element<T>* pHead;
+  Element<T>* pTail;
 };
 
 template <class T>
 List<T>::~List() {
-  Element<T>* current = head_;
+  Element<T>* current = pHead;
 
   while ( current ) {
     Element<T>* next = current->GetNext();
@@ -70,22 +74,22 @@ void List<T>::resize(int sizee){
         insert(i,0);
     }
 }
-// O(1)
+// Thêm vào đầu
 template <class T>
 void List<T>::PushFront(const T& value) {
   Element<T>* element = new( std::nothrow ) Element<T>(value);
 
   if( element ) {
-    if( !head_ ) {
+    if( !pHead ) {
       // Special case, list is empty
         size++;
-      head_ = element;
-      tail_ = element;
+      pHead = element;
+      pTail = element;
     }
     else {
         size++;
-      element->SetNext(head_);
-      head_ = element;
+      element->SetNext(pHead);
+      pHead = element;
     }
     return;
   }
@@ -94,22 +98,22 @@ void List<T>::PushFront(const T& value) {
   }
 }
 
-// O(1)
+// Thêm vào cuối
 template <class T>
 void List<T>::PushBack(const T& value) {
   Element<T>* element = new (std::nothrow) Element<T>(value);
 
   if( element ) {
-    if( !head_ ) {
+    if( !pHead ) {
       // Special case, list is empty
         size++;
-      head_ = element;
-      tail_ = element;
+      pHead = element;
+      pTail = element;
     }
     else {
         size++;
-      tail_->SetNext(element);
-      tail_ = element;
+      pTail->SetNext(element);
+      pTail = element;
     }
     return;
   }
@@ -118,16 +122,16 @@ void List<T>::PushBack(const T& value) {
   }
 }
 
-// O(1)
+// Lấy phần tử đầu
 template <class T>
 void List<T>::PopFront(T* value) {
-  if( value && head_ ) {
-    *value = head_->GetValue();
+  if( value && pHead ) {
+    *value = pHead->GetValue();
 
-    Element<T>* new_head = head_->GetNext();
+    Element<T>* new_head = pHead->GetNext();
     size--;
-    delete head_;
-    head_ = new_head;
+    delete pHead;
+    pHead = new_head;
 
     return;
   }
@@ -135,31 +139,31 @@ void List<T>::PopFront(T* value) {
     return; // Error: nullptr passed as parameter or list empty
 }
 
-// O(n)
+// Lấy phần tử cuối
 template <class T>
 void List<T>::PopBack(T* value) {
-  if( value && tail_ ) {
-    *value = tail_->GetValue();
+  if( value && pTail ) {
+    *value = pTail->GetValue();
 
     // Special case: one element list
-    if( head_ == tail_ ) {
+    if( pHead == pTail ) {
       size--;
-      delete head_;
-      head_ = NULL;
-      tail_ = NULL;
+      delete pHead;
+      pHead = NULL;
+      pTail = NULL;
     }
     else {
       Element<T>* new_tail;
 
-      new_tail = head_;
+      new_tail = pHead;
 
-      while( new_tail->GetNext() != tail_ ) // Skip elements till the element before tail
+      while( new_tail->GetNext() != pTail ) // Skip elements till the element before tail
         new_tail = new_tail->GetNext();
 
       new_tail->SetNext(NULL);
       size--;
-      delete tail_;
-      tail_ = new_tail;
+      delete pTail;
+      pTail = new_tail;
     }
     return;
   }
@@ -170,7 +174,7 @@ void List<T>::PopBack(T* value) {
 template <class T>
 const T& List<T>::pos(int index){
     int i=0;
-    Element<T>* pTemp = head_;
+    Element<T>* pTemp = pHead;
     while(pTemp!=nullptr){
       if(i==index){
           return pTemp->GetValue();
@@ -180,15 +184,8 @@ const T& List<T>::pos(int index){
       i++;
     }
 }
-// O(n)
-template <class T>
-void List<T>::Print() const {
-  Element<T>* e;
-  for(e = head_; e; e = e->GetNext() )
-    e->Print();
-}
 
-// best O(1), avg O(n), wst O(n)
+// Thêm phần tử bất kỳ vào vị trí "pos"
 template <class T>
 void List<T>::insert(const int& pos,const T& value) {
     if( pos < 0 )
@@ -199,7 +196,7 @@ void List<T>::insert(const int& pos,const T& value) {
           return;
       }
 
-      Element<T>* element_before = head_;
+      Element<T>* element_before = pHead;
 
       for(int count = 0; count < pos-1 ; ++count ) {
         element_before = element_before->GetNext();
@@ -214,8 +211,8 @@ void List<T>::insert(const int& pos,const T& value) {
       new_element->SetNext(element_before->GetNext());
       element_before->SetNext(new_element);
 
-      if( element_before == tail_ ) // Special case: insert at the end
-        tail_ = new_element;
+      if( element_before == pTail ) // Special case: insert at the end
+        pTail = new_element;
 
       return;
 
@@ -235,20 +232,20 @@ void List<T>::remove(const int& position) {
   if( position < 0 )
     return;
 
-  if( !head_ )
+  if( !pHead )
     return; // List empty
 
-  Element<T>* target = head_;
+  Element<T>* target = pHead;
 
   if( position==0 ) {// Special case: position = 0, delete head
-    head_ = head_->GetNext();
+    pHead = pHead->GetNext();
     size--;
     delete target;
 
     return;
   }
 
-  Element<T>* element_before = head_;
+  Element<T>* element_before = pHead;
   for(int count = 0; count < position - 1; ++count ) {
     element_before = element_before->GetNext();
 
@@ -263,54 +260,21 @@ void List<T>::remove(const int& position) {
 
   element_before->SetNext(target->GetNext());
   size--;
-  if( target == tail_ )
+  if( target == pTail )
       size--;
-    tail_ = element_before;
+    pTail = element_before;
 
   delete target;
 
   return;
 }
-
+//Clear all
 template <class T>
 void List<T>::clear(){
     for(int i=0;i<size;i++){
         remove(i);
     }
     size=0;
-}
-
-template <class T>
-int List<T>::Find(const int& value) const {
-  int position = -1;
-
-  Element<T>* e = head_;
-
-  for(int count = 0; e; e = e->GetNext(), ++count ) {
-    if( e->GetValue() == value ) {
-      position = count;
-      break;
-    }
-  }
-
-  return position;
-}
-
-template <class T>
-const T& List<T>::Get(const int& position, T* value) {
-  if( position < 0 || !value )
-    return true; // invalid input
-
-  Element<T>* e = head_;
-
-  for(int count = 0; e && count < position; e = e->GetNext(), ++count ) ;
-
-  if( !e )
-    return true;
-
-  *value = e->GetValue();
-
-  return false;
 }
 
 #endif // LIST_H
