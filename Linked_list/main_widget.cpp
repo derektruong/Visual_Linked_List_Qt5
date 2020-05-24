@@ -32,6 +32,10 @@ Widget::Widget(QWidget *parent)
     ui->spinBox_insert_first->setMinimum(-99);
     ui->spinBox1_insert_mid->setMinimum(-99);
     ui->spinBox_insert_tail->setMinimum(-99);
+    ui->spinBox_search->setMinimum(-99);
+    ui->spinBox_replace_bypos_2->setMinimum(-99);
+    ui->spinBox_replace_byvalue_1->setMinimum(-99);
+    ui->spinBox_replace_byvalue_2->setMinimum(-99);
 }
 
 Widget::~Widget()
@@ -212,7 +216,7 @@ void Widget::on_go_insert_mid_clicked()
         ui->label->setText("If you want to insert into first or tail position, please choose Insert Fisrt or Insert Tail!");
     }
     else if(pos>sizeNode || pos<0){
-        ui->label->setText("Error! Overflow error in range select!");
+        ui->label->setText("Error! Out of range!");
     }
     else if(sizeNode>0&&sizeNode<17){
         for(int i=0;i<=sizeNode+17;i++){
@@ -323,7 +327,7 @@ void Widget::on_go_bypos_replace_clicked()
     int pos=ui->spinBox_replace_bypos_1->value();
     int num=ui->spinBox_replace_bypos_2->value();
     if(pos>sizeNode || pos<0){
-        ui->label->setText("Error! Overflow error in range select!");
+        ui->label->setText("Error! Out of range!");
     }
     else{
         for(int i=0;i<sizeNode;i++){
@@ -369,7 +373,7 @@ void Widget::on_go_delete_clicked()
 {
     int pos=ui->spinBox_delete->value();
     if(pos>=sizeNode || pos<0){
-        ui->label->setText("Error! Overflow error in range select!");
+        ui->label->setText("Error! Out of range!");
     }
     else if(sizeNode==0){
         ui->label->setText("List is empty!");
@@ -413,7 +417,7 @@ void Widget::on_go_delete_2_clicked()
                 arr.pos(i)->hide();
             }
         }
-        for(int i=0;i<=sizeNode;i++){
+        for(int i=0;i<=sizeNode+17;i++){
             value.remove(i);
             node.pos(i)->hide();
             if(i<sizeNode){
@@ -514,7 +518,7 @@ void Widget::on_go_desc_sort_clicked()
             node.pos(i)->hide();
             arr.pos(i)->hide();
         }
-        for(int i=0;i<=sizeNode;i++){
+        for(int i=0;i<=sizeNode+17;i++){
             //hiện label node
             if(i==sizeNode) node.replace(i,setNode(i,0));
             else node.replace(i,setNode(i,value_temp[i]));
@@ -545,7 +549,7 @@ void Widget::on_go_random_create_clicked()
         arr.pos(i)->hide();
     }
 
-    for(int i=0;i<=sizeNode;i++){
+    for(int i=0;i<=sizeNode+17;i++){
         value.remove(i);
         node.pos(i)->hide();
         //Vẽ arrow giữa các node(Chú ý: Không được thay đổi cách này nếu không bị lỗi mất số)
@@ -607,7 +611,7 @@ void Widget::on_go_new_create_clicked()
         node.pos(i)->hide();
         arr.pos(i)->hide();
     }
-    for(int i=0;i<=sizeNode;i++){
+    for(int i=0;i<=sizeNode+17;i++){
         value.remove(i);
         node.pos(i)->hide();
         //Vẽ arrow giữa các node(Chú ý: Không được thay đổi cách này nếu không bị lỗi mất số)
