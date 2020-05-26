@@ -21,7 +21,7 @@
     <rect>
      <x>0</x>
      <y>310</y>
-     <width>251</width>
+     <width>231</width>
      <height>401</height>
     </rect>
    </property>
@@ -45,7 +45,7 @@ background-color: rgb(244, 255, 169);
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>251</width>
+      <width>231</width>
       <height>177</height>
      </rect>
     </property>
@@ -213,7 +213,7 @@ padding: 10px;
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>251</width>
+      <width>231</width>
       <height>177</height>
      </rect>
     </property>
@@ -250,8 +250,8 @@ font: 10pt &quot;MS Shell Dlg 2&quot;;</string>
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>201</width>
-        <height>111</height>
+        <width>100</width>
+        <height>30</height>
        </rect>
       </property>
       <attribute name="label">
@@ -451,7 +451,7 @@ padding: 10px;
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>251</width>
+      <width>231</width>
       <height>177</height>
      </rect>
     </property>
@@ -546,7 +546,7 @@ color: rgb(85, 85, 255);</string>
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>251</width>
+      <width>231</width>
       <height>177</height>
      </rect>
     </property>
@@ -647,7 +647,7 @@ padding: 10px;
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>251</width>
+      <width>231</width>
       <height>177</height>
      </rect>
     </property>
@@ -684,8 +684,8 @@ font: 10pt &quot;MS Shell Dlg 2&quot;;</string>
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>181</width>
-        <height>111</height>
+        <width>100</width>
+        <height>30</height>
        </rect>
       </property>
       <attribute name="label">
@@ -980,7 +980,7 @@ padding: 10px;
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>251</width>
+      <width>231</width>
       <height>177</height>
      </rect>
     </property>
@@ -1008,8 +1008,8 @@ font: 10pt &quot;MS Shell Dlg 2&quot;;</string>
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>201</width>
-        <height>111</height>
+        <width>100</width>
+        <height>30</height>
        </rect>
       </property>
       <attribute name="label">
@@ -1151,7 +1151,7 @@ padding: 10px;
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>251</width>
+      <width>231</width>
       <height>177</height>
      </rect>
     </property>
