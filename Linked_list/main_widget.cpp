@@ -508,7 +508,7 @@ void Widget::on_go_search_clicked()
     }
     bool flag=false;//Biến check có tìm thấy hay không
     int num=ui->spinBox_search->value();
-    for(int i=0;i<=sizeNode;i++){
+    for(int i=0;i<sizeNode;i++){
         if(value.pos(i)==num){
             flag=true;
             node.pos(i)->setStyleSheet("background-color: qconicalgradient(cx:0, cy:0, angle:135, stop:0 rgba(255, 255, 0, 69), stop:0.375 rgba(255, 255, 0, 69), stop:0.423533 rgba(251, 255, 0, 145), stop:0.45 rgba(247, 255, 0, 208), stop:0.477581 rgba(255, 244, 71, 130), stop:0.518717 rgba(255, 218, 71, 130), stop:0.55 rgba(255, 255, 0, 255), stop:0.57754 rgba(255, 203, 0, 130), stop:0.625 rgba(255, 255, 0, 69), stop:1 rgba(255, 255, 0, 69));border-style: outset;border-radius:20px");
@@ -521,8 +521,7 @@ void Widget::on_go_search_clicked()
             //break;
         }
         else{
-            if(i==sizeNode) node.replace(i,setNode(i,0));
-            else node.replace(i,setNode(i,value.pos(i)));
+            node.replace(i,setNode(i,value.pos(i)));
             node.pos(i)->show();
             //Vẽ arrow giữa các node(Chú ý: Không được thay đổi cách này nếu không bị lỗi mất số)
             if(i<sizeNode){
@@ -531,6 +530,9 @@ void Widget::on_go_search_clicked()
             }
         }
     }
+    node.replace(sizeNode,setNode(sizeNode,0));
+    node.pos(sizeNode)->show();
+
     if(flag==true) ui->label->setText("Found!");
     else if(flag==false) ui->label->setText("Not found!");
 
@@ -554,7 +556,7 @@ void Widget::on_go_bypos_replace_clicked()
                 //value.replace(i,num);
                 value.replace(i,num);//
                 node.replace(i,setNode(i,num));
-                node.pos(i)->setStyleSheet("background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(255, 0, 0, 255), stop:0.166 rgba(255, 255, 0, 255), stop:0.333 rgba(0, 255, 0, 255), stop:0.5 rgba(0, 255, 255, 255), stop:0.666 rgba(0, 0, 255, 255), stop:0.833 rgba(255, 0, 255, 255), stop:1 rgba(255, 0, 0, 255));border-style: outset;border-radius:20px");
+                node.pos(i)->setStyleSheet("background-color: rgb(162, 246, 255);border-style: outset;border-radius:20px");
                 node.pos(i)->show();
                 //Vẽ arrow giữa các node(Chú ý: Không được thay đổi cách này nếu không bị lỗi mất số)
                 if(i<sizeNode){
@@ -563,8 +565,7 @@ void Widget::on_go_bypos_replace_clicked()
                 }
             }
             else{
-                if(i==sizeNode) node.replace(i,setNode(i,0));
-                else node.replace(i,setNode(i,value.pos(i)));
+                node.replace(i,setNode(i,value.pos(i)));
                 node.pos(i)->show();
                 //Vẽ arrow giữa các node(Chú ý: Không được thay đổi cách này nếu không bị lỗi mất số)
                 if(i<sizeNode){
@@ -574,6 +575,8 @@ void Widget::on_go_bypos_replace_clicked()
             }
             ui->label->setText("Replaced!");
         }
+        node.replace(sizeNode,setNode(sizeNode,0));
+        node.pos(sizeNode)->show();
     }
 }
 
@@ -592,7 +595,7 @@ void Widget::on_go_byvalue_replace_clicked()
             flag=true;
             value.replace(i,new_value);//
             node.replace(i,setNode(i,value.pos(i)));
-            node.pos(i)->setStyleSheet("background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(255, 0, 0, 255), stop:0.166 rgba(255, 255, 0, 255), stop:0.333 rgba(0, 255, 0, 255), stop:0.5 rgba(0, 255, 255, 255), stop:0.666 rgba(0, 0, 255, 255), stop:0.833 rgba(255, 0, 255, 255), stop:1 rgba(255, 0, 0, 255));border-style: outset;border-radius:20px");
+            node.pos(i)->setStyleSheet("background-color: rgb(162, 246, 255);border-style: outset;border-radius:20px");
             node.pos(i)->show();
             //Vẽ arrow giữa các node(Chú ý: Không được thay đổi cách này nếu không bị lỗi mất số)
             if(i<sizeNode){
@@ -601,8 +604,7 @@ void Widget::on_go_byvalue_replace_clicked()
             }
         }
         else{
-            if(i==sizeNode) node.replace(i,setNode(i,0));
-            else node.replace(i,setNode(i,value.pos(i)));
+            node.replace(i,setNode(i,value.pos(i)));
             node.pos(i)->show();
             //Vẽ arrow giữa các node(Chú ý: Không được thay đổi cách này nếu không bị lỗi mất số)
             if(i<sizeNode){
@@ -611,6 +613,9 @@ void Widget::on_go_byvalue_replace_clicked()
             }
         }
     }
+    node.replace(sizeNode,setNode(sizeNode,0));
+    node.pos(sizeNode)->show();
+
     if(flag==true) ui->label->setText("Replaced!");
     else if(flag==false) ui->label->setText("Not found!");
 }
