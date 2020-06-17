@@ -2,8 +2,10 @@
 #define WIDGET_H
 
 #include<QWidget>
-#include <QVector>
+#include<QVector>
 #include<QLabel>
+#include<QMenu>
+#include<QPoint>
 #include"list.h"
 QT_BEGIN_NAMESPACE
 namespace Ui { class Widget;
@@ -19,6 +21,7 @@ public:
     ~Widget();
     QLabel* setNode(int pos,int num);
     QLabel* arrow(int);
+    void go_delete(int pos=99);
 
 private slots:
 
@@ -34,7 +37,9 @@ private slots:
 
     void on_go_byvalue_replace_clicked();
 
-    void on_go_delete_clicked();
+    void on_go_delete_0_clicked();
+
+    void on_go_delete_1_clicked();
 
     void on_go_size_clicked();
 
@@ -48,8 +53,13 @@ private slots:
 
     void on_go_new_create_clicked();
 
+    void ShowContextMenu();
+
+
+
 private:
     Ui::Widget *ui;
+    Widget *w;
     int sizeNode=0;
     List <QLabel*> node;
     List<QLabel*> arr;

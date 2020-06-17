@@ -23,7 +23,6 @@ SOURCES += \
 HEADERS += \
     list.h \
     main_widget.h \
-    node.h
 
 FORMS += \
     main_widget.ui

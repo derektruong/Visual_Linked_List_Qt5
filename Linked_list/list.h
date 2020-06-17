@@ -23,7 +23,7 @@ class Element {
   const T&    GetValue() const { return data_; }//Lấy dữ liệu từ một Element
   void        SetNext(Element<T>* next) { pNext = next; }//Thay đổi "data_" của phần tử mà con trỏ pNext đang trỏ tới
   Element<T>* GetNext() const { return pNext; }//Lấy dữ liệu từ một Element mà con trỏ pNext đang trỏ tới
-    friend class Widgets;//Tạo lớp bạn là Widgets
+    friend class Widget;//Tạo lớp bạn là Widgets
 
  private:
   Element();  // Ngăn chặn gọi constructor mặc định
@@ -51,7 +51,7 @@ class List {
   void remove(const int& position);
   void clear();
 
-  friend class Widgets;//Tạo lớp bạn là Widgets
+  friend class Widget;//Tạo lớp bạn là Widgets
   private:
   int size=0;
   Element<T>* pHead;

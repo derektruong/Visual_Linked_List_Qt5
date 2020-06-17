@@ -75,7 +75,7 @@ background-color: rgb(244, 255, 169);
 font: 10pt &quot;MS Shell Dlg 2&quot;;</string>
      </property>
      <property name="currentIndex">
-      <number>1</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="page_8">
       <property name="geometry">
@@ -250,8 +250,8 @@ font: 10pt &quot;MS Shell Dlg 2&quot;;</string>
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>100</width>
-        <height>30</height>
+        <width>201</width>
+        <height>81</height>
        </rect>
       </property>
       <attribute name="label">
@@ -1001,15 +1001,97 @@ padding: 10px;
 font: 10pt &quot;MS Shell Dlg 2&quot;;</string>
      </property>
      <property name="currentIndex">
-      <number>1</number>
+      <number>0</number>
      </property>
+     <widget class="QWidget" name="page_10">
+      <attribute name="label">
+       <string>By Value</string>
+      </attribute>
+      <widget class="QPushButton" name="go_delete_0">
+       <property name="geometry">
+        <rect>
+         <x>50</x>
+         <y>40</y>
+         <width>121</width>
+         <height>41</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>MS Shell Dlg 2</family>
+         <pointsize>14</pointsize>
+         <weight>50</weight>
+         <italic>false</italic>
+         <bold>false</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">font: 14pt &quot;MS Shell Dlg 2&quot;;
+border-style: outset;
+border-width: 2px;
+background-color: rgb(255, 66, 116);
+border-radius:10px;
+color: rgb(255, 255, 255);
+border-color:black ;
+padding: 10px;
+</string>
+       </property>
+       <property name="text">
+        <string>GO</string>
+       </property>
+      </widget>
+      <widget class="QSpinBox" name="spinBox_remove_byvalue">
+       <property name="geometry">
+        <rect>
+         <x>60</x>
+         <y>0</y>
+         <width>71</width>
+         <height>29</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>MS Shell Dlg 2</family>
+         <pointsize>16</pointsize>
+         <weight>50</weight>
+         <italic>false</italic>
+         <bold>false</bold>
+        </font>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">font: 16pt &quot;MS Shell Dlg 2&quot;;</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="value_remove">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>0</y>
+         <width>41</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>MS Shell Dlg 2</family>
+         <pointsize>10</pointsize>
+         <weight>50</weight>
+         <italic>false</italic>
+         <bold>false</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string>Value:</string>
+       </property>
+      </widget>
+     </widget>
      <widget class="QWidget" name="page_4">
       <property name="geometry">
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>100</width>
-        <height>30</height>
+        <width>201</width>
+        <height>81</height>
        </rect>
       </property>
       <attribute name="label">
@@ -1064,7 +1146,7 @@ color: rgb(85, 85, 255);</string>
         </item>
        </layout>
       </widget>
-      <widget class="QPushButton" name="go_delete">
+      <widget class="QPushButton" name="go_delete_1">
        <property name="geometry">
         <rect>
          <x>20</x>
@@ -1243,10 +1325,10 @@ padding: 10px;
   <widget class="QLabel" name="label_2">
    <property name="geometry">
     <rect>
-     <x>1110</x>
-     <y>640</y>
-     <width>241</width>
-     <height>71</height>
+     <x>1150</x>
+     <y>650</y>
+     <width>201</width>
+     <height>61</height>
     </rect>
    </property>
    <property name="styleSheet">
@@ -1258,7 +1340,7 @@ border-width:2px;
 border-color:red;</string>
    </property>
    <property name="text">
-    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:16pt; font-style:italic; text-decoration: underline;&quot;&gt;Made by:&lt;/span&gt;&lt;span style=&quot; font-size:16pt; font-style:italic;&quot;&gt; DerekTruong&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:16pt; font-style:italic; text-decoration: underline;&quot;&gt;Made from&lt;/span&gt;&lt;span style=&quot; font-size:16pt; font-style:italic; text-decoration: underline;&quot;&gt;:&lt;/span&gt;&lt;span style=&quot; font-size:16pt; font-style:italic;&quot;&gt; Qt5-C++&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:14pt; font-weight:600; font-style:italic;&quot;&gt;ĐỒ ÁN CƠ SỞ&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
   </widget>
  </widget>

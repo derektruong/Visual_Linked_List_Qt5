@@ -4,6 +4,9 @@
 #include<QLabel>
 #include<QPixmap>
 #include<QDir>
+#include<QMenu>
+#include<QPoint>
+#include<QMouseEvent>
 #include<math.h>
 #include<iostream>
 #include<windows.h>
@@ -113,6 +116,7 @@ QLabel* Widget::setNode(int pos,int num){
         nodenew->setText((s+"  *pHead"));
         nodenew->setAlignment(Qt::AlignCenter);
         nodenew->setGeometry(QRect(20,35,100,55));//20,80,100,55
+        ///
 
     }
     //Trường hợp tạo node NULL
@@ -216,7 +220,8 @@ QLabel* Widget::setNode(int pos,int num){
             if(num<0) nodenew->setText((s+"  *pNext"));
             else if(num>=0&&num<10) nodenew->setText((" "+s+"   *pNext"));
             else if(num>=10) nodenew->setText((" "+s+"  *pNext"));
-            nodenew->setGeometry(QRect(170+(pos-1)*150,35,100,55));//170+(pos-1)*150,80,100,55
+            nodenew->setGeometry(QRect(170+(pos-1)*150,35,100,55));
+
         }
         //Hàng 2
         else if(pos>=9&&pos<18){
@@ -263,7 +268,12 @@ QLabel* Widget::setNode(int pos,int num){
             else nodenew->setGeometry(QRect(1370-(pos-42)*140,535,100,55));
         }
     }
-    return nodenew;
+    // myWidget is any QWidget-derived class
+    nodenew->setContextMenuPolicy(Qt::CustomContextMenu);
+    connect(nodenew, SIGNAL(customContextMenuRequested(const QPoint&)),
+       this, SLOT(ShowContextMenu()));
+    //
+    return  nodenew;
 }
 
 //Hàm xử lý tạo mũi tên(là label chứa file ảnh hình mũi tên)(quan trọng)
@@ -619,9 +629,53 @@ void Widget::on_go_byvalue_replace_clicked()
     if(flag==true) ui->label->setText("Replaced!");
     else if(flag==false) ui->label->setText("Not found!");
 }
+//Xử lí xoá tại giá xác định
+void Widget::on_go_delete_0_clicked()
+{
+    bool flag=true;//Biến check có tìm thấy hay không
+    int value_temp=ui->spinBox_remove_byvalue->value();
+    if(sizeNode==0){
+       ui->label->setText("List is empty!");
+       return;
+    }
+    int j;
+        for(j=0;j<sizeNode;j++){
+            if(value.pos(j)==value_temp){
+                flag=true;
+                break;
+            }
+            flag=false;
+        }
 
+    if(!flag){
+        ui->label->setText("Not found!");
+        return;
+    }
+    for(int i=0;i<=sizeNode+50;i++){
+            node.pos(i)->hide();
+            arr.pos(i)->hide();
+    }
+        value.remove(j);
+        node.remove(j);
+        arr.remove(j);
+        sizeNode--;
+        if(sizeNode>0){
+            for(int i=0;i<=sizeNode;i++){
+                if(i==sizeNode) node.replace(i,setNode(i,0));
+                else node.replace(i,setNode(i,value.pos(i)));
+                node.pos(i)->show();
+                //Vẽ arrow giữa các node(Chú ý: Không được thay đổi cách này nếu không bị lỗi mất số)
+                if(i<sizeNode){
+                    arr.replace(i,arrow(i));
+                    arr.pos(i)->show();
+                }
+            }
+        }
+        ui->label->setText("Removed!");
+
+}
 //Xử lí xoá tại vị trí xác định
-void Widget::on_go_delete_clicked()
+void Widget::on_go_delete_1_clicked()
 {
     int pos=ui->spinBox_delete->value();
     if(pos>=sizeNode || pos<0){
@@ -747,7 +801,6 @@ void Widget::on_go_asc_sort_clicked()
         ui->label->setText("Sorted!");
     }
 }
-
 
 //Xử lí sắp xếp giảm dần
 void Widget::on_go_desc_sort_clicked()
@@ -907,4 +960,91 @@ void Widget::on_go_new_create_clicked()
         }
     }
     ui->label->setText("Created!");
+}
+void Widget::go_delete(int pos){
+    for(int i=0;i<=sizeNode+50;i++){
+        node.pos(i)->hide();
+        arr.pos(i)->hide();
+    }
+    value.remove(pos);
+    node.remove(pos);
+    arr.remove(pos);
+    sizeNode--;
+    if(sizeNode>0){
+        for(int i=0;i<=sizeNode;i++){
+            if(i==sizeNode) node.replace(i,setNode(i,0));
+            else node.replace(i,setNode(i,value.pos(i)));
+            node.pos(i)->show();
+            //Vẽ arrow giữa các node(Chú ý: Không được thay đổi cách này nếu không bị lỗi mất số)
+            if(i<sizeNode){
+                arr.replace(i,arrow(i));
+                arr.pos(i)->show();
+            }
+        }
+    }
+    ui->label->setText("Removed!");
+}
+void Widget::ShowContextMenu() // this is a slot
+{
+    // for most widgets
+    QRect p(QWidget::geometry());
+    QPoint mousePoint=QCursor::pos();
+
+    QMenu myMenu;
+
+    myMenu.addAction("Remove this node");
+    myMenu.addAction("Insert at this node");
+    myMenu.addAction("Replace this node");
+    // ...
+    QAction* selectedItem=new QAction(this);
+    selectedItem = myMenu.exec(QCursor::pos());
+    QAction *select1=myMenu.actions().at(0);
+    QAction *select2=myMenu.actions().at(1);
+    QAction *select3=myMenu.actions().at(2);
+        if (selectedItem==select1){
+            //
+            int i=0;
+            for(i=0;i<sizeNode;i++){
+                QRect r(node.pos(i)->geometry());
+                int cx=mousePoint.rx()-p.x();
+                int cy=mousePoint.ry()-p.y();
+                if(cx>=r.x() && cx<=r.x()+100 && cy>=r.y() && cy<=r.y()+55) break;
+            }
+            go_delete(i);
+        }
+        if (selectedItem==select2){
+            //
+            int i=0;
+            for(i=0;i<sizeNode;i++){
+                QRect r(node.pos(i)->geometry());
+                int cx=mousePoint.rx()-p.x();
+                int cy=mousePoint.ry()-p.y();
+                if(cx>=r.x() && cx<=r.x()+100 && cy>=r.y() && cy<=r.y()+55) break;
+            }
+            QString s= QString::number(i);
+            if(i>0 && i<sizeNode){
+                ui->label->setText("Select insert mid at position "+s+"!");
+                ui->spinBox2_insert_mid->setValue(i);
+            }
+            if(i==0) {
+                ui->label->setText("Select insert first!");
+            }
+            if(i==sizeNode) ui->label->setText("Select insert tail!");
+        }
+        if (selectedItem==select3){
+            //
+            int i=0;
+            for(i=0;i<sizeNode;i++){
+                QRect r(node.pos(i)->geometry());
+                int cx=mousePoint.rx()-p.x();
+                int cy=mousePoint.ry()-p.y();
+                if(cx>=r.x() && cx<=r.x()+100 && cy>=r.y() && cy<=r.y()+55) break;
+            }
+            QString s= QString::number(i);
+                ui->label->setText("Select replace by position at position "+s+"!");
+                ui->spinBox_replace_bypos_1->setValue(i);
+         }
+
+    delete selectedItem;
+    selectedItem=NULL;
 }
